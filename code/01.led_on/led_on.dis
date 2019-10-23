@@ -1,0 +1,31 @@
+
+led_on.elf：     文件格式 elf32-littlearm
+
+
+Disassembly of section .text:
+
+00000000 <_start>:
+   0:	e59f1014 	ldr	r1, [pc, #20]	; 1c <halt+0x4>
+   4:	e3a00c01 	mov	r0, #256	; 0x100
+   8:	e5810000 	str	r0, [r1]
+   c:	e59f100c 	ldr	r1, [pc, #12]	; 20 <halt+0x8>
+  10:	e3a00000 	mov	r0, #0
+  14:	e5810000 	str	r0, [r1]
+
+00000018 <halt>:
+  18:	eafffffe 	b	18 <halt>
+  1c:	56000050 			; <UNDEFINED> instruction: 0x56000050
+  20:	56000054 			; <UNDEFINED> instruction: 0x56000054
+
+Disassembly of section .ARM.attributes:
+
+00000000 <.ARM.attributes>:
+   0:	00001e41 	andeq	r1, r0, r1, asr #28
+   4:	61656100 	cmnvs	r5, r0, lsl #2
+   8:	01006962 	tsteq	r0, r2, ror #18
+   c:	00000014 	andeq	r0, r0, r4, lsl r0
+  10:	412d3705 			; <UNDEFINED> instruction: 0x412d3705
+  14:	070a0600 	streq	r0, [sl, -r0, lsl #12]
+  18:	09010841 	stmdbeq	r1, {r0, r6, fp}
+  1c:	地址 0x0000001c 越界。
+
