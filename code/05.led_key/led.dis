@@ -1,0 +1,153 @@
+
+led.elf：     文件格式 elf32-littlearm
+
+
+Disassembly of section .text:
+
+00000000 <_start>:
+   0:	e3a00453 	mov	r0, #1392508928	; 0x53000000
+   4:	e3a01000 	mov	r1, #0
+   8:	e5801000 	str	r1, [r0]
+   c:	e3a00000 	mov	r0, #0
+  10:	e5901000 	ldr	r1, [r0]
+  14:	e5800000 	str	r0, [r0]
+  18:	e5902000 	ldr	r2, [r0]
+  1c:	e1500002 	cmp	r0, r2
+  20:	e59fd00c 	ldr	sp, [pc, #12]	; 34 <halt+0x4>
+  24:	03a0da01 	moveq	sp, #4096	; 0x1000
+  28:	05801000 	streq	r1, [r0]
+  2c:	eb00000f 	bl	70 <main>
+
+00000030 <halt>:
+  30:	eafffffe 	b	30 <halt>
+  34:	40001000 	andmi	r1, r0, r0
+
+00000038 <delay>:
+  38:	e52db004 	push	{fp}		; (str fp, [sp, #-4]!)
+  3c:	e28db000 	add	fp, sp, #0
+  40:	e24dd00c 	sub	sp, sp, #12
+  44:	e50b0008 	str	r0, [fp, #-8]
+  48:	e1a00000 	nop			; (mov r0, r0)
+  4c:	e51b3008 	ldr	r3, [fp, #-8]
+  50:	e2432001 	sub	r2, r3, #1
+  54:	e50b2008 	str	r2, [fp, #-8]
+  58:	e3530000 	cmp	r3, #0
+  5c:	1afffffa 	bne	4c <delay+0x14>
+  60:	e1a00000 	nop			; (mov r0, r0)
+  64:	e28bd000 	add	sp, fp, #0
+  68:	e49db004 	pop	{fp}		; (ldr fp, [sp], #4)
+  6c:	e12fff1e 	bx	lr
+
+00000070 <main>:
+  70:	e52db004 	push	{fp}		; (str fp, [sp, #-4]!)
+  74:	e28db000 	add	fp, sp, #0
+  78:	e24dd00c 	sub	sp, sp, #12
+  7c:	e3a03000 	mov	r3, #0
+  80:	e50b3008 	str	r3, [fp, #-8]
+  84:	e59f3110 	ldr	r3, [pc, #272]	; 19c <main+0x12c>
+  88:	e5932000 	ldr	r2, [r3]
+  8c:	e59f1108 	ldr	r1, [pc, #264]	; 19c <main+0x12c>
+  90:	e59f3108 	ldr	r3, [pc, #264]	; 1a0 <main+0x130>
+  94:	e0033002 	and	r3, r3, r2
+  98:	e5813000 	str	r3, [r1]
+  9c:	e59f30f8 	ldr	r3, [pc, #248]	; 19c <main+0x12c>
+  a0:	e5933000 	ldr	r3, [r3]
+  a4:	e59f20f0 	ldr	r2, [pc, #240]	; 19c <main+0x12c>
+  a8:	e3833c15 	orr	r3, r3, #5376	; 0x1500
+  ac:	e5823000 	str	r3, [r2]
+  b0:	e59f30e4 	ldr	r3, [pc, #228]	; 19c <main+0x12c>
+  b4:	e5932000 	ldr	r2, [r3]
+  b8:	e59f10dc 	ldr	r1, [pc, #220]	; 19c <main+0x12c>
+  bc:	e59f30e0 	ldr	r3, [pc, #224]	; 1a4 <main+0x134>
+  c0:	e0033002 	and	r3, r3, r2
+  c4:	e5813000 	str	r3, [r1]
+  c8:	e59f30d8 	ldr	r3, [pc, #216]	; 1a8 <main+0x138>
+  cc:	e5932000 	ldr	r2, [r3]
+  d0:	e59f10d0 	ldr	r1, [pc, #208]	; 1a8 <main+0x138>
+  d4:	e59f30d0 	ldr	r3, [pc, #208]	; 1ac <main+0x13c>
+  d8:	e0033002 	and	r3, r3, r2
+  dc:	e5813000 	str	r3, [r1]
+  e0:	e59f30c8 	ldr	r3, [pc, #200]	; 1b0 <main+0x140>
+  e4:	e5933000 	ldr	r3, [r3]
+  e8:	e2032001 	and	r2, r3, #1
+  ec:	e59f30bc 	ldr	r3, [pc, #188]	; 1b0 <main+0x140>
+  f0:	e5933000 	ldr	r3, [r3]
+  f4:	e1a030a3 	lsr	r3, r3, #1
+  f8:	e2033002 	and	r3, r3, #2
+  fc:	e1822003 	orr	r2, r2, r3
+ 100:	e59f30ac 	ldr	r3, [pc, #172]	; 1b4 <main+0x144>
+ 104:	e5933000 	ldr	r3, [r3]
+ 108:	e1a030a3 	lsr	r3, r3, #1
+ 10c:	e2033004 	and	r3, r3, #4
+ 110:	e1823003 	orr	r3, r2, r3
+ 114:	e50b3008 	str	r3, [fp, #-8]
+ 118:	e51b3008 	ldr	r3, [fp, #-8]
+ 11c:	e3530006 	cmp	r3, #6
+ 120:	1a000005 	bne	13c <main+0xcc>
+ 124:	e59f3084 	ldr	r3, [pc, #132]	; 1b0 <main+0x140>
+ 128:	e5933000 	ldr	r3, [r3]
+ 12c:	e59f207c 	ldr	r2, [pc, #124]	; 1b0 <main+0x140>
+ 130:	e3c33010 	bic	r3, r3, #16
+ 134:	e5823000 	str	r3, [r2]
+ 138:	eaffffe8 	b	e0 <main+0x70>
+ 13c:	e51b3008 	ldr	r3, [fp, #-8]
+ 140:	e3530005 	cmp	r3, #5
+ 144:	1a000005 	bne	160 <main+0xf0>
+ 148:	e59f3060 	ldr	r3, [pc, #96]	; 1b0 <main+0x140>
+ 14c:	e5933000 	ldr	r3, [r3]
+ 150:	e59f2058 	ldr	r2, [pc, #88]	; 1b0 <main+0x140>
+ 154:	e3c33020 	bic	r3, r3, #32
+ 158:	e5823000 	str	r3, [r2]
+ 15c:	eaffffdf 	b	e0 <main+0x70>
+ 160:	e51b3008 	ldr	r3, [fp, #-8]
+ 164:	e3530003 	cmp	r3, #3
+ 168:	1a000005 	bne	184 <main+0x114>
+ 16c:	e59f303c 	ldr	r3, [pc, #60]	; 1b0 <main+0x140>
+ 170:	e5933000 	ldr	r3, [r3]
+ 174:	e59f2034 	ldr	r2, [pc, #52]	; 1b0 <main+0x140>
+ 178:	e3c33040 	bic	r3, r3, #64	; 0x40
+ 17c:	e5823000 	str	r3, [r2]
+ 180:	eaffffd6 	b	e0 <main+0x70>
+ 184:	e59f3024 	ldr	r3, [pc, #36]	; 1b0 <main+0x140>
+ 188:	e5933000 	ldr	r3, [r3]
+ 18c:	e59f201c 	ldr	r2, [pc, #28]	; 1b0 <main+0x140>
+ 190:	e3833070 	orr	r3, r3, #112	; 0x70
+ 194:	e5823000 	str	r3, [r2]
+ 198:	eaffffd0 	b	e0 <main+0x70>
+ 19c:	56000050 			; <UNDEFINED> instruction: 0x56000050
+ 1a0:	0000c0ff 	strdeq	ip, [r0], -pc	; <UNPREDICTABLE>
+ 1a4:	0000ffcc 	andeq	pc, r0, ip, asr #31
+ 1a8:	56000060 	strpl	r0, [r0], -r0, rrx
+ 1ac:	0000ff3f 	andeq	pc, r0, pc, lsr pc	; <UNPREDICTABLE>
+ 1b0:	56000054 			; <UNDEFINED> instruction: 0x56000054
+ 1b4:	56000064 	strpl	r0, [r0], -r4, rrx
+
+Disassembly of section .comment:
+
+00000000 <.comment>:
+   0:	3a434347 	bcc	10d0d24 <__bss_end__+0x10c0b6c>
+   4:	61522820 	cmpvs	r2, r0, lsr #16
+   8:	69627073 	stmdbvs	r2!, {r0, r1, r4, r5, r6, ip, sp, lr}^
+   c:	38206e61 	stmdacc	r0!, {r0, r5, r6, r9, sl, fp, sp, lr}
+  10:	302e332e 	eorcc	r3, lr, lr, lsr #6
+  14:	722b362d 	eorvc	r3, fp, #47185920	; 0x2d00000
+  18:	29316970 	ldmdbcs	r1!, {r4, r5, r6, r8, fp, sp, lr}
+  1c:	332e3820 			; <UNDEFINED> instruction: 0x332e3820
+  20:	地址 0x00000020 越界。
+
+
+Disassembly of section .ARM.attributes:
+
+00000000 <.ARM.attributes>:
+   0:	00002a41 	andeq	r2, r0, r1, asr #20
+   4:	61656100 	cmnvs	r5, r0, lsl #2
+   8:	01006962 	tsteq	r0, r2, ror #18
+   c:	00000020 	andeq	r0, r0, r0, lsr #32
+  10:	06003605 	streq	r3, [r0], -r5, lsl #12
+  14:	09010806 	stmdbeq	r1, {r1, r2, fp}
+  18:	12020a01 	andne	r0, r2, #4096	; 0x1000
+  1c:	15011404 	strne	r1, [r1, #-1028]	; 0xfffffbfc
+  20:	18031701 	stmdane	r3, {r0, r8, r9, sl, ip}
+  24:	1c021a01 			; <UNDEFINED> instruction: 0x1c021a01
+  28:	地址 0x00000028 越界。
+
