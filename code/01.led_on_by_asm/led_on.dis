@@ -1,16 +1,16 @@
 
-led_on.elf：     文件格式 elf32-littlearm
+led_on.elf:     file format elf32-littlearm
 
 
 Disassembly of section .text:
 
 00000000 <_start>:
-   0:	e59f1014 	ldr	r1, [pc, #20]	; 1c <halt+0x4>
-   4:	e3a00c01 	mov	r0, #256	; 0x100
-   8:	e5810000 	str	r0, [r1]
-   c:	e59f100c 	ldr	r1, [pc, #12]	; 20 <halt+0x8>
-  10:	e3a00000 	mov	r0, #0
-  14:	e5810000 	str	r0, [r1]
+   0:	e59f0014 	ldr	r0, [pc, #20]	; 1c <halt+0x4>
+   4:	e3a01c01 	mov	r1, #256	; 0x100
+   8:	e5801000 	str	r1, [r0]
+   c:	e59f000c 	ldr	r0, [pc, #12]	; 20 <halt+0x8>
+  10:	e3a01000 	mov	r1, #0
+  14:	e5801000 	str	r1, [r0]
 
 00000018 <halt>:
   18:	eafffffe 	b	18 <halt>
@@ -27,5 +27,5 @@ Disassembly of section .ARM.attributes:
   10:	412d3705 			; <UNDEFINED> instruction: 0x412d3705
   14:	070a0600 	streq	r0, [sl, -r0, lsl #12]
   18:	09010841 	stmdbeq	r1, {r0, r6, fp}
-  1c:	地址 0x0000001c 越界。
+  1c:	Address 0x0000001c is out of bounds.
 
