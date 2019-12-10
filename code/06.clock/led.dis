@@ -1,0 +1,135 @@
+
+led.elf：     文件格式 elf32-littlearm
+
+
+Disassembly of section .text:
+
+00000000 <_start>:
+   0:	e3a00453 	mov	r0, #1392508928	; 0x53000000
+   4:	e3a01000 	mov	r1, #0
+   8:	e5801000 	str	r1, [r0]
+   c:	e3a00313 	mov	r0, #1275068416	; 0x4c000000
+  10:	e3e01000 	mvn	r1, #0
+  14:	e5801000 	str	r1, [r0]
+  18:	e59f0044 	ldr	r0, [pc, #68]	; 64 <halt+0x4>
+  1c:	e3a01005 	mov	r1, #5
+  20:	e5801000 	str	r1, [r0]
+  24:	ee110f10 	mrc	15, 0, r0, cr1, cr0, {0}
+  28:	e3800103 	orr	r0, r0, #-1073741824	; 0xc0000000
+  2c:	ee010f10 	mcr	15, 0, r0, cr1, cr0, {0}
+  30:	e59f0030 	ldr	r0, [pc, #48]	; 68 <halt+0x8>
+  34:	e59f1030 	ldr	r1, [pc, #48]	; 6c <halt+0xc>
+  38:	e5801000 	str	r1, [r0]
+  3c:	e3a00000 	mov	r0, #0
+  40:	e5901000 	ldr	r1, [r0]
+  44:	e5800000 	str	r0, [r0]
+  48:	e5902000 	ldr	r2, [r0]
+  4c:	e1500002 	cmp	r0, r2
+  50:	e59fd018 	ldr	sp, [pc, #24]	; 70 <halt+0x10>
+  54:	03a0da01 	moveq	sp, #4096	; 0x1000
+  58:	05801000 	streq	r1, [r0]
+  5c:	eb000012 	bl	ac <main>
+
+00000060 <halt>:
+  60:	eafffffe 	b	60 <halt>
+  64:	4c000014 	stcmi	0, cr0, [r0], {20}
+  68:	4c000004 	stcmi	0, cr0, [r0], {4}
+  6c:	0005c011 	andeq	ip, r5, r1, lsl r0
+  70:	40001000 	andmi	r1, r0, r0
+
+00000074 <delay>:
+  74:	e52db004 	push	{fp}		; (str fp, [sp, #-4]!)
+  78:	e28db000 	add	fp, sp, #0
+  7c:	e24dd00c 	sub	sp, sp, #12
+  80:	e50b0008 	str	r0, [fp, #-8]
+  84:	e1a00000 	nop			; (mov r0, r0)
+  88:	e51b3008 	ldr	r3, [fp, #-8]
+  8c:	e2432001 	sub	r2, r3, #1
+  90:	e50b2008 	str	r2, [fp, #-8]
+  94:	e3530000 	cmp	r3, #0
+  98:	1afffffa 	bne	88 <delay+0x14>
+  9c:	e1a00000 	nop			; (mov r0, r0)
+  a0:	e28bd000 	add	sp, fp, #0
+  a4:	e49db004 	pop	{fp}		; (ldr fp, [sp], #4)
+  a8:	e12fff1e 	bx	lr
+
+000000ac <main>:
+  ac:	e92d4800 	push	{fp, lr}
+  b0:	e28db004 	add	fp, sp, #4
+  b4:	e24dd018 	sub	sp, sp, #24
+  b8:	e50b0018 	str	r0, [fp, #-24]	; 0xffffffe8
+  bc:	e59f309c 	ldr	r3, [pc, #156]	; 160 <main+0xb4>
+  c0:	e50b300c 	str	r3, [fp, #-12]
+  c4:	e59f3098 	ldr	r3, [pc, #152]	; 164 <main+0xb8>
+  c8:	e50b3010 	str	r3, [fp, #-16]
+  cc:	e51b300c 	ldr	r3, [fp, #-12]
+  d0:	e5932000 	ldr	r2, [r3]
+  d4:	e59f308c 	ldr	r3, [pc, #140]	; 168 <main+0xbc>
+  d8:	e0033002 	and	r3, r3, r2
+  dc:	e51b200c 	ldr	r2, [fp, #-12]
+  e0:	e5823000 	str	r3, [r2]
+  e4:	e51b300c 	ldr	r3, [fp, #-12]
+  e8:	e5933000 	ldr	r3, [r3]
+  ec:	e3832c15 	orr	r2, r3, #5376	; 0x1500
+  f0:	e51b300c 	ldr	r3, [fp, #-12]
+  f4:	e5832000 	str	r2, [r3]
+  f8:	e3a03004 	mov	r3, #4
+  fc:	e50b3008 	str	r3, [fp, #-8]
+ 100:	ea000012 	b	150 <main+0xa4>
+ 104:	e51b3010 	ldr	r3, [fp, #-16]
+ 108:	e5933000 	ldr	r3, [r3]
+ 10c:	e3832070 	orr	r2, r3, #112	; 0x70
+ 110:	e51b3010 	ldr	r3, [fp, #-16]
+ 114:	e5832000 	str	r2, [r3]
+ 118:	e51b3010 	ldr	r3, [fp, #-16]
+ 11c:	e5933000 	ldr	r3, [r3]
+ 120:	e3a01001 	mov	r1, #1
+ 124:	e51b2008 	ldr	r2, [fp, #-8]
+ 128:	e1a02211 	lsl	r2, r1, r2
+ 12c:	e1e02002 	mvn	r2, r2
+ 130:	e0022003 	and	r2, r2, r3
+ 134:	e51b3010 	ldr	r3, [fp, #-16]
+ 138:	e5832000 	str	r2, [r3]
+ 13c:	e59f0028 	ldr	r0, [pc, #40]	; 16c <main+0xc0>
+ 140:	ebffffcb 	bl	74 <delay>
+ 144:	e51b3008 	ldr	r3, [fp, #-8]
+ 148:	e2833001 	add	r3, r3, #1
+ 14c:	e50b3008 	str	r3, [fp, #-8]
+ 150:	e51b3008 	ldr	r3, [fp, #-8]
+ 154:	e3530006 	cmp	r3, #6
+ 158:	daffffe9 	ble	104 <main+0x58>
+ 15c:	eaffffe5 	b	f8 <main+0x4c>
+ 160:	56000050 			; <UNDEFINED> instruction: 0x56000050
+ 164:	56000054 			; <UNDEFINED> instruction: 0x56000054
+ 168:	0000c0ff 	strdeq	ip, [r0], -pc	; <UNPREDICTABLE>
+ 16c:	000186a0 	andeq	r8, r1, r0, lsr #13
+
+Disassembly of section .comment:
+
+00000000 <.comment>:
+   0:	3a434347 	bcc	10d0d24 <__bss_end__+0x10c0bb4>
+   4:	61522820 	cmpvs	r2, r0, lsr #16
+   8:	69627073 	stmdbvs	r2!, {r0, r1, r4, r5, r6, ip, sp, lr}^
+   c:	38206e61 	stmdacc	r0!, {r0, r5, r6, r9, sl, fp, sp, lr}
+  10:	302e332e 	eorcc	r3, lr, lr, lsr #6
+  14:	722b362d 	eorvc	r3, fp, #47185920	; 0x2d00000
+  18:	29316970 	ldmdbcs	r1!, {r4, r5, r6, r8, fp, sp, lr}
+  1c:	332e3820 			; <UNDEFINED> instruction: 0x332e3820
+  20:	地址 0x00000020 越界。
+
+
+Disassembly of section .ARM.attributes:
+
+00000000 <.ARM.attributes>:
+   0:	00002a41 	andeq	r2, r0, r1, asr #20
+   4:	61656100 	cmnvs	r5, r0, lsl #2
+   8:	01006962 	tsteq	r0, r2, ror #18
+   c:	00000020 	andeq	r0, r0, r0, lsr #32
+  10:	06003605 	streq	r3, [r0], -r5, lsl #12
+  14:	09010806 	stmdbeq	r1, {r1, r2, fp}
+  18:	12020a01 	andne	r0, r2, #4096	; 0x1000
+  1c:	15011404 	strne	r1, [r1, #-1028]	; 0xfffffbfc
+  20:	18031701 	stmdane	r3, {r0, r8, r9, sl, ip}
+  24:	1c021a01 			; <UNDEFINED> instruction: 0x1c021a01
+  28:	地址 0x00000028 越界。
+
