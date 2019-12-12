@@ -36,7 +36,6 @@ char uart0_getchar(void)
 {
 	/* read URXH0 */
 	while(!(UTRSTAT0 & (0x01))); //
-	uart0_putchar(URXH0);
 	return URXH0;
 }
 

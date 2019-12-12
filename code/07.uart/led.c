@@ -15,8 +15,9 @@ void led_init(void)
 
 int led_loop(void)
 {
+	int i;
 	/* 循环点亮 */
-	for(int i = 4;i < 7;i++)
+	for(i = 4;i < 7;i++)
 	{
 		GPFDAT |=  (7<<4);//3个位都置1
 		GPFDAT &= ~(1<<i);//相应位清零
