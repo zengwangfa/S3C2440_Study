@@ -2,7 +2,7 @@
 #define __UART_H
 
 //串口初始化
-void uart0_init(void);
+void uart0_init(int buadrate);
 
 //输出一个字符
 void uart0_putchar(unsigned char c);

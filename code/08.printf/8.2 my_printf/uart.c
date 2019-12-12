@@ -1,7 +1,7 @@
 #include "s3c2440_soc.h"
 
 //串口初始化
-void uart0_init(void)
+void uart0_init(int buadrate)
 {
 	/* 配置串口引脚 */
 	/* GPH2、3复用于串口 */
@@ -16,7 +16,7 @@ void uart0_init(void)
 	 * UBRDIVn = 50,000,000 / (115200 x 16) -1 = 26
 	 */
 	UCON0 = 0x05; /* 时钟源:PCLK 模式:中断/查询*/
-	UBRDIV0 = 26; 
+	UBRDIV0 = (int)(50000000/(buadrate*16)) - 1; 
 	/* 设置数据格式 */
 	ULCON0 = 0x03; /* 8N1 */
 	

@@ -9,7 +9,7 @@ int main(void)
 	unsigned char c;
 	/* 设备初始化 */
 	led_init();
-	uart0_init();
+	uart0_init(115200);
 
 	uart0_puts("Hello, world!\r\n");
 	my_printf_test();
