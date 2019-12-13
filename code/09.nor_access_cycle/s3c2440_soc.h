@@ -8,6 +8,7 @@
 #define  __S3C2440_SOC_H
 
 #define     __REG(x)					(*(volatile unsigned int *)(x)) 
+#define     __REG_BYTE(x)				(*(volatile unsigned char *)(x)) 
 
 /*Memory Controllers*/
 #define     BWSCON                   __REG(0x48000000)   //Bus width & wait status control   
@@ -189,8 +190,8 @@
 #define     UERSTAT0                 __REG(0x50000014)  //UART 0 Rx error status   
 #define     UFSTAT0                  __REG(0x50000018)  //UART 0 FIFO status       
 #define     UMSTAT0                  __REG(0x5000001C)  //UART 0 modem status    
-#define     UTXH0                    __REG(0x50000020)  //UART 0 transmission hold 
-#define     URXH0                    __REG(0x50000024)  //UART 0 receive buffer    
+#define     UTXH0                    __REG_BYTE(0x50000020)  //UART 0 transmission hold 
+#define     URXH0                    __REG_BYTE(0x50000024)  //UART 0 receive buffer    
 #define     UBRDIV0                  __REG(0x50000028)  //UART 0 baud rate divisor 
 #define     ULCON1                   __REG(0x50004000)  //UART 1 line control      
 #define     UCON1                    __REG(0x50004004)  //UART 1 control           
