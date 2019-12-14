@@ -68,11 +68,10 @@ static int my_vprintf(const char *fmt, va_list ap)
 	
 	 for(; *fmt != '\0'; fmt++)
 	 {
-			if (*fmt != '%') {//当未遇到%,直接输出字符
-				outc(*fmt);
-				continue;
-			}
-			
+		if (*fmt != '%') {//当未遇到%,直接输出字符
+			outc(*fmt);
+			continue;
+		}	
 		//format : %08d, %8d,%d,%u,%x,%f,%c,%s 
 		fmt++;
 		if(*fmt == '0'){//存放前导码
