@@ -13,4 +13,5 @@
 | 09 | nor_access_cycle | nor读取周期 | 简单分析nor读取时序,控制读取时间,改变读取效率 |
 | 10 | sdram | sdram读写 | 初始化并读写sdram | 
 | 11 | relocate | 重定位代码 | 内存中重定位概念以及链接脚本 | 
+| 11 | thumb | thumb指令集 | thumb指令集编译、使得代码以thunb状态运行 | 
 
