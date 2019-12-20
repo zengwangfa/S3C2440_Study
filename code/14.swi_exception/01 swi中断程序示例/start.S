@@ -5,8 +5,8 @@
 /*====================================异常向量表===========================================*/
 _start:
 	b reset   		  //vector 0: reset(0地址对应reset)
- 	ldr pc, =und_addr //vector 4: und  (发生未定义指令异常，则进入“处理未定义异常函数”)绝对跳转，跳转至sdram中
- 	ldr pc, =swi_addr //vector 8: swi
+ 	ldr pc, und_addr //vector 4: und  (发生未定义指令异常，则进入“处理未定义异常函数”)绝对跳转，跳转至sdram中
+ 	ldr pc, swi_addr //vector 8: swi
 
 und_addr:
 	.word do_und //存放地址,确保这一地址存放在内存的前4K中
