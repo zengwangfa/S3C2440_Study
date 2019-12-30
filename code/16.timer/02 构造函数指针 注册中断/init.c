@@ -4,7 +4,7 @@
 
 extern irq_func irq_array[32];//定义存放函数指针数组(即：数组中存放的是函数指针)
 /* 注册中断
- * param：1.中断号，2.中断服务函数
+ * param：1.中断号，2.中断服务函数指针
 */
 void register_irq(int irq,irq_func fp)
 {
