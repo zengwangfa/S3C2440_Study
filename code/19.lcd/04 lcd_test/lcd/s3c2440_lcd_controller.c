@@ -84,7 +84,7 @@ void s3c2240_lcd_controller_init(p_lcd_params plcdparams)
 	 * [0]  : HWSWP
 	 */
 
-	pixelformat = plcdparams->bpp == 24 ? (0) :\
+	pixelformat = plcdparams->bpp == 32 ? (0) :\
 				  plcdparams->bpp == 16 ? (1) :\
 				  (1<<1);//8ppp
 	LCDCON5 = (plcdparams->pins_pol.vclk<<10) |\
@@ -106,10 +106,7 @@ void s3c2240_lcd_controller_init(p_lcd_params plcdparams)
 	 * [20:0]  : LCDBASEU, [21:1] of fb_end
 	 */	  
 	addr = plcdparams->fb_base + plcdparams->xres*plcdparams->yres*plcdparams->bpp/8;//结束地址 = 起始地址+一帧所占空间大小
-	addr >>=1;
-	addr &= 0x1fffff;
-	LCDSADDR2 = addr;//
-	//LCDSADDR2 = (fb_addr & 0x3FFFFF) >> 1;
+	LCDSADDR2 = (addr & 0x3FFFFF) >> 1;
 }
 
 
