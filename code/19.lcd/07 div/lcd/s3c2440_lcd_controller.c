@@ -35,7 +35,7 @@ void s3c2240_lcd_controller_init(p_lcd_params plcdparams)
  	 * [4:1]：bpp mode
  	 * [0]  ：LCD video output and the logic enable(1)/disable(0)
 	*/
-	int clkval  = 5;//(int)((double)100/plcdparams->time_seq.vclk/2 - 1 + 0.5);
+	int clkval  = (int)((double)100/plcdparams->time_seq.vclk/2 - 1 + 0.5);
 	int bppmode = (plcdparams->bpp ==  8) ? 0x0B :\
 				  (plcdparams->bpp == 16) ? 0x0C :\
 				  0x0D; //0x0B-8bpp，0x0c-16bpp，0x0D-24bpp
@@ -149,7 +149,7 @@ lcd_controller s3c2240_lcd_controller = {
 };
 
 
-/* s3c2440 lcd控制器注册，注册到上层，以便被调用 */
+/* s3c2440 lcd控制器注册 */
 void s3c2440_lcd_controller_add(void)
 {
 	register_lcd_controller(&s3c2240_lcd_controller);

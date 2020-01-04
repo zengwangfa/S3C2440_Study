@@ -29,9 +29,6 @@ int select_lcd_controller(char *name)
 {
 	int i;
 	for(i = 0; i < LCD_CON_MAX_NUM; i++){
-		/* 扫描lcd控制器数组，如果不为空 并且 lcd控制器名称相同，则选中
-			保存在全局变量g_p_lcd_controller_selected中
-		*/
 		if(p_array_lcd_controller[i] && !strcmp(p_array_lcd_controller[i]->name,name)){
 			g_p_lcd_controller_selected = p_array_lcd_controller[i];
 			return i;

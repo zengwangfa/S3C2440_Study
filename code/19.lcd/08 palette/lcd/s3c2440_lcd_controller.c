@@ -35,7 +35,7 @@ void s3c2240_lcd_controller_init(p_lcd_params plcdparams)
  	 * [4:1]：bpp mode
  	 * [0]  ：LCD video output and the logic enable(1)/disable(0)
 	*/
-	int clkval  = 5;//(int)((double)100/plcdparams->time_seq.vclk/2 - 1 + 0.5);
+	int clkval  = (int)((double)100/plcdparams->time_seq.vclk/2 - 1 + 0.5);
 	int bppmode = (plcdparams->bpp ==  8) ? 0x0B :\
 				  (plcdparams->bpp == 16) ? 0x0C :\
 				  0x0D; //0x0B-8bpp，0x0c-16bpp，0x0D-24bpp
@@ -137,6 +137,27 @@ void s3c2240_lcd_controller_disable(void)
 	LCDCON1 |= ~(1<<0);
 }
 
+/* 设置调色板之前, 先关闭lcd_controller */
+void s3c2240_lcd_controller_init_palette(void)
+{
+	volatile unsigned int *palette_base = (volatile unsigned int *)0x4D000400;
+	int i;
+	int bit = LCDCON1 & (1<<0);//保存LCD使能位
+
+	/* LCDCON1'BIT 0 : 设置LCD控制器是否输出信号 */
+	if(bit){//如果使能，先关闭
+		LCDCON1 &= ~(1<<0);		
+	}
+	/* 存入256组16bit调色板数据，以下为测试使用 */
+	for(i = 0;i < 256; i++){
+		*palette_base = i;
+	}
+
+	if(bit){//如果原先使能，过后使能
+		LCDCON1 |= (1<<0);		
+	}
+}
+
 
 
 /* LCD 控制器具体实现函数结构体 
@@ -146,10 +167,11 @@ lcd_controller s3c2240_lcd_controller = {
 	.init    = s3c2240_lcd_controller_init,
 	.enable  = s3c2240_lcd_controller_enable,
 	.disable = s3c2240_lcd_controller_disable,
+	.init_palette = s3c2240_lcd_controller_init_palette,
 };
 
 
-/* s3c2440 lcd控制器注册，注册到上层，以便被调用 */
+/* s3c2440 lcd控制器注册 */
 void s3c2440_lcd_controller_add(void)
 {
 	register_lcd_controller(&s3c2240_lcd_controller);

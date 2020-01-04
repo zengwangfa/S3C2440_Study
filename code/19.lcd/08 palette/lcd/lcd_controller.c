@@ -29,9 +29,6 @@ int select_lcd_controller(char *name)
 {
 	int i;
 	for(i = 0; i < LCD_CON_MAX_NUM; i++){
-		/* 扫描lcd控制器数组，如果不为空 并且 lcd控制器名称相同，则选中
-			保存在全局变量g_p_lcd_controller_selected中
-		*/
 		if(p_array_lcd_controller[i] && !strcmp(p_array_lcd_controller[i]->name,name)){
 			g_p_lcd_controller_selected = p_array_lcd_controller[i];
 			return i;
@@ -54,6 +51,7 @@ int lcd_controller_init(p_lcd_params plcdparams)
 	/* 调用2440的LCD初始化函数 */
 	if(g_p_lcd_controller_selected){//被选中的LCD控制器非空才进行初始化
 		g_p_lcd_controller_selected->init(plcdparams);
+		g_p_lcd_controller_selected->init_palette();
 		return 0;
 	}
 	return -1;
