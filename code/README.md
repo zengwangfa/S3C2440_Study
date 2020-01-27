@@ -20,3 +20,5 @@
 | 16 | timer | 定时器中断 | 定时器中断的初始化及处理过程 | 
 | 17 | nor_flash | nor操作 | nor识别、读写、擦除 | 
 | 18 | nand_flash | nand操作 | nor识别、读写、擦除、改进代码重定位 | 
+| 19 | lcd | lcd操作 | lcd控制器框架、lcd时序 | 
+| 20 | i2c | i2c操作 | i2c控制器框架、i2c中断处理 | 
