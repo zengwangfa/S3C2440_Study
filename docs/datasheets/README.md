@@ -9,4 +9,4 @@
 | 05 | [K9F2G08U0A](./K9F2G08U0A.pdf) | NAND FLASH芯片手册(256MB) | 
 | 06 | [K9F2G08U0C](./K9F2G08U0C.pdf) | NAND FLASH芯片手册(256MB) | 
 | 07 | [AT043TN13](./AT043TN13.pdf) | LCD显示规范手册 | 
-
+| 08 | [AT2C4XX](./AT2C4XX.pdf) | I2C接口存储芯片手册 | 
