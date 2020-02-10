@@ -24,31 +24,36 @@
 #include <asm/arch/regs-gpio.h>
 #include <asm/arch/fb.h>
 
+//函数声明
+static int s3c_lcdfb_setcolreg(unsigned int regno, unsigned int red,
+			     unsigned int green, unsigned int blue,
+			     unsigned int transp, struct fb_info *info);
+			     
 struct lcd_regs {
 	unsigned long	lcdcon1;
 	unsigned long	lcdcon2;
 	unsigned long	lcdcon3;
 	unsigned long	lcdcon4;
 	unsigned long	lcdcon5;
-    unsigned long	lcdsaddr1;
-    unsigned long	lcdsaddr2;
-    unsigned long	lcdsaddr3;
-    unsigned long	redlut;
-    unsigned long	greenlut;
-    unsigned long	bluelut;
-    unsigned long	reserved[9];
-    unsigned long	dithmode;
-    unsigned long	tpal;
-    unsigned long	lcdintpnd;
-    unsigned long	lcdsrcpnd;
-    unsigned long	lcdintmsk;
-    unsigned long	lpcsel;
+  unsigned long	lcdsaddr1;
+  unsigned long	lcdsaddr2;
+  unsigned long	lcdsaddr3;
+  unsigned long	redlut;
+  unsigned long	greenlut;
+  unsigned long	bluelut;
+  unsigned long	reserved[9];
+  unsigned long	dithmode;
+  unsigned long	tpal;
+  unsigned long	lcdintpnd;
+  unsigned long	lcdsrcpnd;
+  unsigned long	lcdintmsk;
+  unsigned long	lpcsel;
 };
 
 static struct fb_ops s3c_lcdfb_ops = {
 	.owner		= THIS_MODULE,
-//	.fb_setcolreg	= atmel_lcdfb_setcolreg,
-	.fb_fillrect	= cfb_fillrect,
+	.fb_setcolreg	= s3c_lcdfb_setcolreg,
+	.fb_fillrect	= cfb_fillrect, 
 	.fb_copyarea	= cfb_copyarea,
 	.fb_imageblit	= cfb_imageblit,
 };
@@ -61,13 +66,42 @@ static volatile unsigned long *gpccon;
 static volatile unsigned long *gpdcon;
 static volatile unsigned long *gpgcon;
 static volatile struct lcd_regs* lcd_regs;
+static u32 pseudo_palette[16];
+
+/* from pxafb.c */
+static inline unsigned int chan_to_field(unsigned int chan, struct fb_bitfield *bf)
+{
+	chan &= 0xffff;//保留低16位
+	chan >>= 16 - bf->length;
+	return chan << bf->offset;
+}
+
+static int s3c_lcdfb_setcolreg(unsigned int regno, unsigned int red,
+			     unsigned int green, unsigned int blue,
+			     unsigned int transp, struct fb_info *info)
+{
+	unsigned int val;
+	if(regno > 16)
+		return 1;
+		
+	/* 用red,green,blue三原色构造出val */
+	val  = chan_to_field(red,	&info->var.red);
+	val |= chan_to_field(green, &info->var.green);
+	val |= chan_to_field(blue,	&info->var.blue);
+	
+	//((u32 *)(info->pseudo_palette))[regno] = val;
+	pseudo_palette[regno] = val;
+	return 0;
+
+}
+
 
 static int lcd_init(void)
 {
 	/* 1.分配fb_info */
 	
 	s3c_lcd = framebuffer_alloc(0, NULL);
-	if (!fbinfo) {
+	if (!s3c_lcd) {
 		return -ENOMEM;//内存不足报错
 	}
 	
@@ -102,7 +136,7 @@ static int lcd_init(void)
 	s3c_lcd->fbops              = &s3c_lcdfb_ops;
 	
 	/* 2.4 其他设置 */
-	//s3c_lcd->pseudo_palette = ;
+	s3c_lcd->pseudo_palette = pseudo_palette; /* 调色板 */
 	//s3c_lcd->screen_base  = ;  /* 显存的虚拟地址 */ 
 	s3c_lcd->screen_size   = 480*272*16/8;
 
@@ -196,28 +230,34 @@ lcd_regs->lcdcon4 =	S3C2410_LCDCON4_MVAL(13) | \
 	
 	lcd_regs->lcdsaddr1  = (s3c_lcd->fix.smem_start >> 1) & ~(3<<30);
 	lcd_regs->lcdsaddr2  = ((s3c_lcd->fix.smem_start + s3c_lcd->fix.smem_len) >> 1) & 0x1fffff;
-	lcd_regs->lcdsaddr3  = (480*16/16);  /* 一行的长度(单位: 2字节) */	
+	lcd_regs->lcdsaddr3  = (480*16/16);  /* 一行的长度: 半字 (机器字长的一半) */	
 	
-	//s3c_lcd->fix.smem_start = xxx;  /* 显存的物理地址 */
 	/* 启动LCD */
 	lcd_regs->lcdcon1 |= (1<<0); /* 使能LCD控制器 */
 	lcd_regs->lcdcon5 |= (1<<3); /* 使能LCD本身 */
 	*gpbdat |= 1;     /* 输出高电平, 使能背光 */		
 
-	/* 3.3 分配显存(framebuffer)，并把地址告诉LCD控制器 */
 
-
-	s3c_lcd->fix.smem_start = xxx; /* 显存的物理地址 */
+	//s3c_lcd->fix.smem_start = xxx; /* 显存的物理地址 */
 	/* 4.注册 */
 	register_framebuffer(s3c_lcd);
 
 	return 0;
 }
 
-
-1static void lcd_exit(void)
+ 
+static void lcd_exit(void)
 {
-
+	unregister_framebuffer(s3c_lcd);
+	lcd_regs->lcdcon1 &= ~(1<<0); /* 关闭LCD本身 */
+	*gpbdat &= ~1;     /* 关闭背光 */
+	dma_free_writecombine(NULL, s3c_lcd->fix.smem_len, s3c_lcd->screen_base, s3c_lcd->fix.smem_start);
+	iounmap(lcd_regs);
+	iounmap(gpbcon);
+	iounmap(gpccon);
+	iounmap(gpdcon);
+	iounmap(gpgcon);
+	framebuffer_release(s3c_lcd);
 }
 
 
