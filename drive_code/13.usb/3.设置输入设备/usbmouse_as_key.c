@@ -88,10 +88,15 @@ static int usbmouse_as_key_probe(struct usb_interface *intf, const struct usb_de
 
 static void usbmouse_as_key_disconnect(struct usb_interface *intf)
 {
+	struct usb_device *dev = interface_to_usbdev(intf);
 
+	//printk("disconnect usbmouse!\n");
+	usb_kill_urb(uk_urb);
+	usb_free_urb(uk_urb);
 
-	printk("disconnect usbmouse!\n");
-
+	usb_buffer_free(dev, len, usb_buf, usb_buf_phys);
+	input_unregister_device(uk_dev);
+	input_free_device(uk_dev);
 }
 
 /* 1. ∑÷≈‰/…Ë÷√usb_driver */
